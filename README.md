@@ -1,1 +1,1 @@
-# -formation-devops-training
+# formation-devops-training
