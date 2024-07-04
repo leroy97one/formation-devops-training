@@ -10,6 +10,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 RUN mkdir templates
 COPY templates/index.html templates/index.html
+
+VOLUME [ "/app/data" ]
+
 # Exposez le port sur lequel l'application sera accessible
 EXPOSE 5000
 # Commande pour démarrer l'application Flask
