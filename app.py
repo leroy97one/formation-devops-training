@@ -3,9 +3,12 @@ from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///todo.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://myuser:mypassword@db:5432/mydatabase'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-db = SQLAlchemy(app)
+db = SQLAlchemy(app) 
+app.config['SQLALCHEMY_ENGINE OPTIONS'] =  {
+    'pool_pre_ping': True,
+}
 
 class Todo(db.Model):
     id = db.Column(db.Integer, primary_key=True)
