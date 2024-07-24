@@ -1,0 +1,15 @@
+---
+- name: Installer Flask et ses dépendances
+  hosts: matteo_vm
+  become: yes
+  tasks:
+    - name: Assurer que pip est installé
+      apt:
+        name: python3-pip
+        state: present
+
+    - name: Installer Flask via pip
+      pip:
+        name: flask
+        state: present
+        executable: pip3

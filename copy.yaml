@@ -1,0 +1,7 @@
+- name: Copier les fichiers de l'application Flask
+  hosts: matteo_vm
+  tasks:
+    - name: Copier les fichiers
+      synchronize:
+        src: /home/matteo/myproject/formation-devops-training
+        dest: /home/outscale/flask

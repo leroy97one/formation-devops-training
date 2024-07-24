@@ -1,0 +1,17 @@
+---
+- name: Lancer l'application Flask en arrière-plan
+  hosts: matteo_vm
+  become: yes
+  tasks:
+    - name: Installer les dépendances
+      pip:
+        requirements: /home/outscale/flask/formation-devops-training/requirements.txt
+        executable: pip3
+
+    - name: Lancer l'application Flask
+      become: true
+      shell: nohup python3 /home/outscale/flask/formation-devops-training/app.py --port=5000 > /home/outscale/flask/formation-devops-training/app.log 2>&1 &
+      async: 30
+      poll: 0
+      tags:
+        - cmd
