@@ -1,0 +1,21 @@
+name: CI/CD demo
+
+on: 
+  push:
+    branches:
+       - main
+  workflows-dispatch:
+
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+
+    - name: Install dependencies
+      run: ls -l
