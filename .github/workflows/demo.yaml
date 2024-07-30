@@ -27,4 +27,5 @@ jobs:
 # deployer l'application avec docker compose pour réaliser les tests unitaires
     - name: Run unit tests
       run: python tests_main.py
+      working-directory: ./formation-devops-training
 # supprimer les containers docker créés pour réaliser les tests
