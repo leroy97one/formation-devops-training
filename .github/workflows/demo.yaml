@@ -21,8 +21,20 @@ jobs:
       with:
           python-version: 3.8
 
+    - name: Build and run Docker containers
+      run: |
+        mkdir postgresql_data
+        docker-compose -f docker-compose-dev.yml build
+        docker-compose -f docker-compose-dev.yml up -d
+        sleep 5
 
-    - name: Install dependencies
+    - name: Show containers
+      run: |
+        docker-compose -f docker-compose-dev.yml ps
+        docker network ls
+
+    - name: Install dependencie
+
       run: ls -l
 # deployer l'application avec docker compose pour réaliser les tests unitaires
     - name: Run unit tests
