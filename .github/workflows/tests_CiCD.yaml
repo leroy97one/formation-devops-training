@@ -1,0 +1,62 @@
+name: CI/CD demo
+
+on: 
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  tests_unitaires:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+
+      - name: Install dependencies
+        run: python -m pip install -r requirements.txt
+         
+          
+
+      - name: Install Docker Compose
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y docker-compose
+
+      - name: Build and run Docker containers
+        run: |
+          mkdir postgresql_data
+          docker-compose -f docker-compose-dev.yml build
+          docker-compose -f docker-compose-dev.yml up -d
+          sleep 10  # Augmenter le temps de sommeil pour permettre aux services de démarrer
+
+      - name: Show containers
+        run: |
+          docker-compose -f docker-compose-dev.yml ps
+          docker network ls
+
+      - name: Install dependencies
+        run: |
+          python -m pip install -r requirements.txt
+          ls -l
+
+      # Deployer l'application avec docker compose pour réaliser les tests unitaires
+      - name: Run unit tests
+        run: |
+          docker run -d -i --name unit_tests --network formation-devops-training_default \
+            -v $PWD:/opt/formation-devops-training \
+            -w /opt/formation-devops-training \
+            python:3.10-slim bash
+          docker exec -i unit_tests python3 -m pip install -r requirements.txt
+          docker exec -i unit_tests python3 /opt/formation-devops-training/test_main.py
+
+      - name: Run integration test
+        run: |
+          pytest test_e2e.py
+  
