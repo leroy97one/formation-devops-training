@@ -1,4 +1,4 @@
-name: CI/CD démo
+name: CI/CD demo
 
 on: 
   push:
@@ -11,41 +11,43 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Récupérer le dépôt
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Configurer Python
+      - name: Set up Python
         uses: actions/setup-python@v2
         with:
           python-version: 3.8
 
-      - name: Construire et lancer les conteneurs Docker
+      - name: Build and run Docker containers
         run: |
           mkdir postgresql_data
           docker-compose -f docker-compose-dev.yml build
           docker-compose -f docker-compose-dev.yml up -d
-          sleep 10  # Augmenter le temps de sommeil pour permettre aux services de démarrer
+          sleep 5
 
-      - name: Afficher les conteneurs
+      - name: Show containers
         run: |
           docker-compose -f docker-compose-dev.yml ps
           docker network ls
 
-      - name: Installer les dépendances
+      - name: Install dependencies
         run: |
           python -m pip install -r requirements.txt
           ls -l
 
-      - name: Exécuter les tests unitaires
-        run: |
-          docker run -d -i --name unit_tests --network formation-devops-training_default \
-            -v $PWD:/opt/formation-devops-training \
-            -w /opt/formation-devops-training \
-            python:3.10-slim bash
-          docker exec -i unit_tests python3 -m pip install -r requirements.txt
-          docker exec -i unit_tests python3 /opt/formation-devops-training/test_main.py
-
-      - name: Arrêter et supprimer les conteneurs Docker
+      # Deployer l'application avec docker compose pour réaliser les tests unitaires
+      - name: Run unit tests
+         run: |
+            docker run -d -i --name unit_tests --network  formation-devops-training_default \
+              -v $PWD:/opt/formation-devops-training \
+              -w /opt/formation-devops-training
+               python:3.10-slim bash
+            docker exec -i unit_tests python3 -m pip install -r requirements.txt
+            docker exec -i unit_tests python3 /opt/formation-devops-training/test_main.py
+            
+      # Supprimer les containers docker créés pour réaliser les tests
+      - name: Stop and remove Docker containers
         run: |
           docker-compose -f docker-compose-dev.yml down
           rm -rf postgresql_data
