@@ -21,8 +21,6 @@ jobs:
 
       - name: Install dependencies
         run: python -m pip install -r requirements.txt
-         
-          
 
       - name: Install Docker Compose
         run: |
@@ -41,22 +39,19 @@ jobs:
           docker-compose -f docker-compose-dev.yml ps
           docker network ls
 
-      - name: Install dependencies
+      - name: Install Python dependencies inside the Docker container
         run: |
-          python -m pip install -r requirements.txt
-          ls -l
+          docker exec -i formation-devops-training_default python -m pip install -r /opt/formation-devops-training/requirements.txt
 
-      # Deployer l'application avec docker compose pour réaliser les tests unitaires
       - name: Run unit tests
         run: |
-          docker run -d -i --name unit_tests --network formation-devops-training_default \
-            -v $PWD:/opt/formation-devops-training \
-            -w /opt/formation-devops-training \
-            python:3.10-slim bash
-          docker exec -i unit_tests python3 -m pip install -r requirements.txt
-          docker exec -i unit_tests python3 /opt/formation-devops-training/test_main.py
+          docker exec -i formation-devops-training_default python3 /opt/formation-devops-training/test_main.py
 
       - name: Run integration test
         run: |
-          pytest test_e2e.py
-  
+          docker exec -i formation-devops-training_default pytest /opt/formation-devops-training/test_e2e.py
+
+      - name: Stop and remove Docker containers
+        run: |
+          docker-compose -f docker-compose-dev.yml down
+          rm -rf postgresql_data
