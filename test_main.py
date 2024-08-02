@@ -34,7 +34,7 @@ class YourAppTestCase(TestCase):
         db.session.commit()
 
         response = self.client.get('/delete/{}'.format(test_task.id))
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 302)
 
         deleted_task = Todo.query.get(test_task.id)
         self.assertIsNone(deleted_task) # Assurez-vous que la tâche a été supprimée de la base de données
