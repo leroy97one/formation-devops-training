@@ -3,41 +3,45 @@ name: CI/CD demo
 on: 
   push:
     branches:
-       - main
+      - main
   workflow_dispatch:
-
 
 jobs:
   tests_unitaires:
     runs-on: ubuntu-latest
 
-
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
-    - 
-      name: Set up Python
-      uses: actions/setup-python@v2
-      with:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
           python-version: 3.8
 
-    - name: Build and run Docker containers
-      run: |
-        mkdir postgresql_data
-        docker-compose -f docker-compose-dev.yml build
-        docker-compose -f docker-compose-dev.yml up -d
-        sleep 5
+      - name: Build and run Docker containers
+        run: |
+          mkdir postgresql_data
+          docker-compose -f docker-compose-dev.yml build
+          docker-compose -f docker-compose-dev.yml up -d
+          sleep 5
 
-    - name: Show containers
-      run: |
-        docker-compose -f docker-compose-dev.yml ps
-        docker network ls
+      - name: Show containers
+        run: |
+          docker-compose -f docker-compose-dev.yml ps
+          docker network ls
 
-    - name: Install dependencie
+      - name: Install dependencies
+        run: |
+          python -m pip install -r requirements.txt
+          ls -l
 
-      run: ls -l
-# deployer l'application avec docker compose pour réaliser les tests unitaires
-    - name: Run unit tests
-      run: python test_main.py
+      # Deployer l'application avec docker compose pour réaliser les tests unitaires
+      - name: Run unit tests
+        run: python test_main.py
 
-# supprimer les containers docker créés pour réaliser les tests
+      # Supprimer les containers docker créés pour réaliser les tests
+      - name: Stop and remove Docker containers
+        run: |
+          docker-compose -f docker-compose-dev.yml down
+          rm -rf postgresql_data
