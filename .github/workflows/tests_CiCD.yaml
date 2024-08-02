@@ -45,6 +45,7 @@ jobs:
         run: |
           python -m pip install -r requirements.txt
           ls -l
+           docker exec -i formation-devops-training_web_1 python -m pip install -r /opt/formation-devops-training/requirements.txt
 
       # Deployer l'application avec docker compose pour réaliser les tests unitaires
       - name: Run unit tests
