@@ -50,9 +50,3 @@ jobs:
             python:3.10-slim bash
           docker exec -i unit_tests python3 -m pip install -r requirements.txt
           docker exec -i unit_tests python3 /opt/formation-devops-training/test_main.py
-
-      # Supprimer les containers docker créés pour réaliser les tests
-      - name: Stop and remove Docker containers
-        run: |
-          docker-compose -f docker-compose-dev.yml down
-          rm -rf postgresql_data
