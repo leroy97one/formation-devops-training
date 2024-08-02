@@ -54,6 +54,5 @@ jobs:
 
       - name: Run integration test
         run: |
-         docker exec -i formation-devops-training_web_1 pytest /opt/formation-devops-training/test_e2e.py
-
+          pytest test_e2e.py
   
