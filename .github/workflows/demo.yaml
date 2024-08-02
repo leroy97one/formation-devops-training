@@ -39,11 +39,11 @@ jobs:
       - name: Run unit tests
         run: |
             docker run -d -i --name unit_tests --network  formation-devops-training_default \
-              -v $PWD:/opt/formation-devops-training \
-              -w /opt/formation-devops-training
+              -v $PWD:/formation-devops-training \
+              -w /formation-devops-training
                python:3.10-slim bash
             docker exec -i unit_tests python3 -m pip install -r requirements.txt
-            docker exec -i unit_tests python3 /opt/formation-devops-training/test_main.py
+            docker exec -i unit_tests python3 /formation-devops-training/test_main.py
             
       # Supprimer les containers docker créés pour réaliser les tests
       - name: Stop and remove Docker containers
