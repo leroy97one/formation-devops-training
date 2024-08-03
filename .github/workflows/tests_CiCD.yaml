@@ -9,7 +9,10 @@ on:
 jobs:
 
   Build + push:
+    runs-on: ubuntu-latest
+
     steps:
+
       - name: Docker Login
         uses: docker/login-action@v2
         with:
