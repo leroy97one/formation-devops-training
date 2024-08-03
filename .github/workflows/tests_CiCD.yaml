@@ -69,4 +69,19 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
-  
+      
+
+      - name: Docker login as root
+        run: |
+        sudo docker login u- ${{ secrets.DOCKER_USERNAME}} -P '${{ secrets.DOCKER_PASSWORD }}'
+
+      - name: Build and run Docker container
+        run: |
+          mkdir postgresql_data
+          docker-compose -f docker-compose-dev.yml build
+          docker-compose -f docker-compose-dev.yml up -d
+          sleep 10  # Augmenter le temps de sommeil pour permettre aux services de démarrer
+
+      - name: Show containers
+        run: |
+          sudo docker ps
