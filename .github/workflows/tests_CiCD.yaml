@@ -73,7 +73,7 @@ jobs:
 
       - name: Docker login as root
         run: |
-          sudo docker login u- ${{ secrets.DOCKER_USERNAME}} -P '${{ secrets.DOCKER_PASSWORD }}'
+          sudo docker login u- ${{ secrets.DOCKER_USERNAME}} -p '${{ secrets.DOCKER_PASSWORD }}'
 
       - name: Build and run Docker container
         run: |
@@ -85,3 +85,4 @@ jobs:
       - name: Show containers
         run: |
           sudo docker ps
+s
