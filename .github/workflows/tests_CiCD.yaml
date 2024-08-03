@@ -63,10 +63,10 @@ jobs:
      
 
   deploy:
-  runs-on: self-hosted
-needs: [tests] 
+    runs-on: self-hosted
+    needs: [tests] 
 
-steps:
-- name: Checkout repository
-  uses: actions/checkout@v2
-- name: Deploy app
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Deploy app
