@@ -60,3 +60,13 @@ jobs:
             python:3.10-slim bash
           docker exec -i int_tests python3 -m pip install -r requirements.txt
           docker exec -i int_tests python3 /opt/formation-devops-training/test_e2e.py
+     
+
+  deploy:
+  runs-on: self-hosted
+needs: [tests] 
+
+steps:
+- name: Checkout repository
+  uses: actions/checkout@v2
+- name: Deploy app
