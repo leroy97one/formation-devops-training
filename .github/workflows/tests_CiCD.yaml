@@ -30,26 +30,8 @@ jobs:
       - name: Push
         run: docker push leroy971/demo:v2
 
-  tests_unitaires:
 
-    runs-on: ubuntu-latest
-    needs: [Build_and_push]
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: 3.8
-
-      - name: Install Docker Compose
-        run: |
-          sudo apt-get updatename: CI/CD demo
-
-
-  tests_unitaires:
+   tests_unitaires:
 
     runs-on: ubuntu-latest
     needs: [Build_and_push]
