@@ -16,7 +16,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-        
+
       - name: Docker Login
         uses: docker/login-action@v2
         with:
@@ -81,14 +81,8 @@ jobs:
 
       - name: Run integration test
         run: |
-          docker run -d -i --name int_tests --network formation-devops-training_default \
-            -v $PWD:/opt/formation-devops-training \
-            -w /opt/formation-devops-training \
-            python:3.10-slim bash
-          docker exec -i int_tests python3 -m pip install -r requirements.txt
-          docker exec -i int_tests python3 /opt/formation-devops-training/test_e2e.py
-     
-
+          pystest tests_e2e.py
+          
   deploy:
 
     runs-on: self-hosted
@@ -118,4 +112,4 @@ jobs:
 
       - name: Show containers
         run: |
-          sudo docker
+          sudo docker ps
