@@ -1,102 +1,25 @@
-name: CI/CD demo
+version: '3.8'
 
-on:
-  push:
-    branches:
-      - main
-  workflow_dispatch:
-
-jobs:
-  build_and_push:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
-
-      - name: Login to DockerHub
-        uses: docker/login-action@v2
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-
-      - name: Extract Git commit SHA
-        id: vars
-        run: echo "COMMIT_SHA=$(echo $GITHUB_SHA | cut -c1-7)" >> $GITHUB_ENV
-
-      - name: Build and push Docker image
-        run: |
-          TAG=${{ github.run_number }}-${{ github.sha }}
-          docker build -t leroy971/demo:${TAG} .
-          docker push leroy971/demo:${TAG}
-
-      - name: Set Docker tag output
-        id: docker_tag
-        run: echo "::set-output name=tag::${{ github.run_number }}-${{ github.sha }}"
-
-  tests_unitaires:
-    runs-on: ubuntu-latest
-    needs: build_and_push
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: 3.8
-
-      - name: Install Docker Compose
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y docker-compose
-
-      - name: Create .env file with APP_VERSION
-        run: |
-          echo "APP_VERSION=${{ needs.build_and_push.outputs.tag }}" > .env
-
-      - name: Build and run Docker containers
-        run: |
-          mkdir postgresql_data
-          docker-compose -f docker-compose-dev.yml build
-          docker-compose -f docker-compose-dev.yml up -d
-          sleep 30
-
-      - name: Show containers
-        run: |
-          docker-compose -f docker-compose-dev.yml ps
-          docker network ls
-          docker logs formation-devops-training_web_1
-
-      - name: Install dependencies
-        run: |
-          python -m pip install -r requirements.txt
-          ls -l
-          docker exec -i formation-devops-training_web_1 python -m pip install -r /app/requirements.txt
-
-      - name: Run unit tests
-        run: |
-          docker run -d -i --name unit_tests --network formation-devops-training_default \
-            -v $PWD:/opt/formation-devops-training \
-            -w /opt/formation-devops-training \
-            python:3.10-slim bash
-          docker exec -i unit_tests python3 -m pip install -r requirements.txt
-          docker exec -i unit_tests python3 /opt/formation-devops-training/test_main.py
-
-      - name: List files and permissions
-        run: |
-          ls -l /home/runner/work/formation-devops-training/formation-devops-training
-          ls -l /home/runner/work/formation-devops-training/formation-devops-training/postgresql_data
-
-      - name: Run integration test
-        run: |
-          pytest test_e2e.py
-
-  deploy:
-    runs-on: self-hosted
-    needs: tests_unitaires
-    steps:
-      - name: Checkout repository
-        uses: actions/
+services:
+  web:
+    # build: .
+    image: leroy971/demo:${APP_VERSION}
+    environment:
+      - DB_HOST=db
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./app.py:/app/app.py
+    depends_on:
+      - db
+  db:
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_DB: mydatabase
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./postgresql_data:/var/lib/postgresql/data
