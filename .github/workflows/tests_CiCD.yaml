@@ -21,7 +21,7 @@ jobs:
 
 
       - name: Build
-        run: docker build leroy971/demo:v2
+        run: docker build -t leroy971/demo:v2 .
 
       - name: Push
         run: docker push leroy971/demo:v2
