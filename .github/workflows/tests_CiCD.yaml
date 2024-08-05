@@ -81,7 +81,7 @@ jobs:
 
       - name: Run integration test
         run: |
-          pytest test_e2e.py
+         sudo pytest test_e2e.py
 
   deploy:
 
@@ -112,4 +112,4 @@ jobs:
 
       - name: Show containers
         run: |
-          sudo docker ps
+          docker ps
