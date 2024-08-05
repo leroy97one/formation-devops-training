@@ -53,6 +53,7 @@ jobs:
         run: |
           mkdir -p postgresql_data
           docker-compose -f docker-compose-dev.yml up -d
+          docker-compose -f docker-compose-dev.yml logs web
           sleep 10  # Increase sleep time to allow services to start
 
       - name: Show containers
