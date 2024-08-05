@@ -1,6 +1,6 @@
 name: CI/CD demo
 
-on: 
+on:
   push:
     branches:
       - main
@@ -8,8 +8,9 @@ on:
 
 jobs:
   build_and_push:
-    name: Build and Push Docker Image
     runs-on: ubuntu-latest
+    outputs:
+      image-tag: ${{ steps.build.outputs.image-tag }}
 
     steps:
       - name: Checkout repository
@@ -26,9 +27,11 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Build Docker image
+        id: build
         run: |
           docker build -t ${{ secrets.DOCKER_USERNAME }}/demo:${{ env.APP_VERSION }} .
           docker tag ${{ secrets.DOCKER_USERNAME }}/demo:${{ env.APP_VERSION }} ${{ secrets.DOCKER_USERNAME }}/demo:latest
+          echo "IMAGE_TAG=${{ secrets.DOCKER_USERNAME }}/demo:${{ env.APP_VERSION }}" >> $GITHUB_ENV
 
       - name: Push Docker image
         run: |
@@ -55,7 +58,7 @@ jobs:
 
       - name: Build and run Docker containers
         run: |
-          mkdir postgresql_data
+          mkdir -p postgresql_data
           export APP_VERSION=${{ env.APP_VERSION }}
           docker-compose -f docker-compose-dev.yml build
           docker-compose -f docker-compose-dev.yml up -d
@@ -69,7 +72,6 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install -r requirements.txt
-          ls -l
           docker exec -i formation-devops-training_web_1 python -m pip install -r /app/requirements.txt
 
       - name: Run unit tests
@@ -77,14 +79,12 @@ jobs:
           docker run -d -i --name unit_tests --network formation-devops-training_default \
             -v $PWD:/opt/formation-devops-training \
             -w /opt/formation-devops-training \
-            python:3.10-slim bash
-          docker exec -i unit_tests python3 -m pip install -r requirements.txt
-          docker exec -i unit_tests python3 /opt/formation-devops-training/test_main.py
+            python:3.10-slim bash -c "python3 -m pip install -r requirements.txt && python3 /opt/formation-devops-training/test_main.py"
 
       - name: Run integration test
         run: |
           pytest test_e2e.py
-          
+
   deploy:
     runs-on: self-hosted
     needs: tests_unitaires
@@ -101,9 +101,9 @@ jobs:
 
       - name: Pull and run Docker container
         run: |
-          mkdir postgresql_data
-          export APP_VERSION=${{ needs.build_and_push.outputs.APP_VERSION }}
-          docker pull ${{ secrets.DOCKER_USERNAME }}/demo:${{ env.APP_VERSION }}
+          mkdir -p postgresql_data
+          export APP_VERSION=${{ needs.build_and_push.outputs.image-tag }}
+          docker pull ${{ needs.build_and_push.outputs.image-tag }}
           docker-compose -f docker-compose-dev.yml up -d
           sleep 10  # Augmenter le temps de sommeil pour permettre aux services de démarrer
 
