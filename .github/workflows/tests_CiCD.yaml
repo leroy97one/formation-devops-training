@@ -7,7 +7,6 @@ on:
   workflow_dispatch:
 
 jobs:
-
   Build_and_push:
     runs-on: ubuntu-latest
 
