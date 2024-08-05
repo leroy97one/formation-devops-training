@@ -81,7 +81,7 @@ jobs:
 
       - name: Run integration test
         run: |
-         sudo pytest test_e2e.py
+          pytest test_e2e.py
 
   deploy:
 
