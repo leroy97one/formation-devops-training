@@ -15,26 +15,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Get current version
-        id: get_version
-        run: |
-          if [ -f version.txt ]; then
-            VERSION=$(cat version.txt)
-          else
-            VERSION="v0"
-          fi
-          echo "VERSION=${VERSION}" >> $GITHUB_ENV
-
-      - name: Increment version
-        id: increment_version
-        run: |
-          VERSION=${{ env.VERSION }}
-          VERSION_NUMBER=$(echo $VERSION | sed 's/v//')
-          NEXT_VERSION_NUMBER=$((VERSION_NUMBER + 1))
-          NEXT_VERSION="v$NEXT_VERSION_NUMBER"
-          echo "APP_VERSION=${NEXT_VERSION}" >> $GITHUB_ENV
-          echo ${NEXT_VERSION} > version.txt
-
       - name: Log in to DockerHub
         uses: docker/login-action@v2
         with:
