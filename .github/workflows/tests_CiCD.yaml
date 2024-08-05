@@ -53,7 +53,6 @@ jobs:
         run: |
 
           mkdir postgresql_data
-          export APP_VERSION=$(date +%Y-%m-%d-%H-%M-%S)
           docker-compose -f docker-compose-dev.yml build
           docker-compose -f docker-compose-dev.yml up -d
           sleep 10  # Augmenter le temps de sommeil pour permettre aux services de démarrer
@@ -62,6 +61,9 @@ jobs:
         run: |
           docker-compose -f docker-compose-dev.yml ps
           docker network ls
+          docker logs formation-devops-training_web_1
+
+      
 
       - name: Install dependencies
         run: |
@@ -109,7 +111,7 @@ jobs:
 
       - name: Build and run Docker container
         run: |
-          export APP_VERSION=$(date +%Y-%m-%d-%H-%M-%S)
+         
           mkdir postgresql_data
           docker-compose -f docker-compose-dev.yml build
           docker-compose -f docker-compose-dev.yml up -d
