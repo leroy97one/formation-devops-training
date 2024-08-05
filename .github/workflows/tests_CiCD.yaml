@@ -79,6 +79,11 @@ jobs:
           docker exec -i unit_tests python3 -m pip install -r requirements.txt
           docker exec -i unit_tests python3 /opt/formation-devops-training/test_main.py
 
+      - name: List files and permissions
+        run: |
+          ls -l /home/runner/work/formation-devops-training/formation-devops-training
+          ls -l /home/runner/work/formation-devops-training/formation-devops-training/postgresql_data
+
       - name: Run integration test
         run: |
           pytest test_e2e.py
