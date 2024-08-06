@@ -71,7 +71,7 @@ jobs:
           python -m pip install -r requirements.txt
 
           docker-compose -f docker-compose-dev.yml ps
-          docker exec -i formation-devops-training_web_1 python -m pip install -r /app/requirements.txt
+          docker exec -i formation-devops-training-web-1 python -m pip install -r /app/requirements.txt
       - name: Run unit tests
         run: |
           docker run -d -i --name unit_tests --network formation-devops-training_default \
