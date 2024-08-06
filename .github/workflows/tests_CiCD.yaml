@@ -60,7 +60,7 @@ jobs:
       - name: Build and run Docker containers
         run: |
           mkdir -p postgresql_data
-          docker-compose -f docker-compose-dev.yml build -d
+          docker-compose -f docker-compose-dev.yml build 
           docker-compose -f docker-compose-dev.yml up -d
 
 
