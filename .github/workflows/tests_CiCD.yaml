@@ -62,6 +62,7 @@ jobs:
           sleep 10
       - name: Show containers
         run: |
+          docker-compose -f docker-compose-dev.yml up -d
           docker-compose -f docker-compose-dev.yml ps
           docker-compose -f docker-compose-dev.yml logs
           docker network ls
