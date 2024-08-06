@@ -61,11 +61,15 @@ jobs:
         run: |
           mkdir -p postgresql_data
           docker-compose -f docker-compose-dev.yml up -d
+
+
           sleep 10
 
       - name: Show containers
         run: |
           docker-compose -f docker-compose-dev.yml ps
+          docker-compose -f docker-compose-dev.yml logs
+
           docker network ls
 
       - name: Install dependencies
