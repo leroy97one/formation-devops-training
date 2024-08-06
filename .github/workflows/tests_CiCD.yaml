@@ -29,8 +29,8 @@ jobs:
 
       - name: Build and push Docker image
         run: |
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/formation-devops-training:${{ steps.set_version.outputs.app_version }} .
-          docker push ${{ secrets.DOCKER_USERNAME }}/formation-devops-training:${{ steps.set_version.outputs.app_version }}
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/demo:${{ steps.set_version.outputs.app_version }} .
+          docker push ${{ secrets.DOCKER_USERNAME }}/demo:${{ steps.set_version.outputs.app_version }}
 
   tests_unitaires:
     name: Run Unit Tests
