@@ -82,8 +82,11 @@ jobs:
           docker exec -i unit_tests python3 /opt/formation-devops-training/test_main.py
       - name: Run integration test
         run: |
-          sudo chown -R $USER:$USER /home/runner/work/formation-devops-training/formation-devops-training/postgresql_data/__init__.py
-         
+          sudo chown -R $USER:$USER /home/runner/work/formation-devops-training/formation-devops-training/
+          sudo chmod 755 /home/runner/work/formation-devops-training
+          sudo chmod 755 /home/runner/work/formation-devops-training/postgresql_data
+
+
 
           
 
