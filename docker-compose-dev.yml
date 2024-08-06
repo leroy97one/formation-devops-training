@@ -1,7 +1,7 @@
 
 services:
   web:
-    image: leroy971/demo:${APP_VERSION} 
+    image: leroy971/demo:v1
     environment:
       - DB_HOST=db
     ports:
