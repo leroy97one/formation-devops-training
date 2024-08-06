@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       app_version: ${{ steps.set_version.outputs.app_version }}
-      
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -57,7 +57,7 @@ jobs:
         run: |
           mkdir -p postgresql_data
           docker-compose -f docker-compose-dev.yml up -d
-          sleep 10  # Increase sleep time to allow services to start
+          sleep 10
 
       - name: Show containers
         run: |
@@ -102,7 +102,7 @@ jobs:
         run: |
           mkdir -p postgresql_data
           docker-compose -f docker-compose-dev.yml up -d
-          sleep 10  # Increase sleep time to allow services to start
+          sleep 10
 
       - name: Show containers
         run: |
