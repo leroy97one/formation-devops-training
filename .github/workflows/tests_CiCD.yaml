@@ -9,7 +9,7 @@ on:
 jobs:
   build_and_push:
     name: Build and Push Docker Image
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     outputs:
       app_version: ${{ steps.set_version.outputs.app_version }}
 
@@ -33,7 +33,7 @@ jobs:
           docker push ${{ secrets.DOCKER_USERNAME }}/demo:${{ steps.set_version.outputs.app_version }}
   tests_unitaires:
     name: Run Unit Tests
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: build_and_push
     env:
       APP_VERSION: ${{ needs.build_and_push.outputs.app_version }}
