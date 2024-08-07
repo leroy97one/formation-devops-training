@@ -25,7 +25,7 @@ def setup_app(base_url):
 def test_add_and_delete_task(base_url, setup_app):
     # Test d'ajout d'une tâche
     response = requests.post(f'{base_url}/add', data={'title': 'Nouvelle tache'})
-    assert response.status_code == 500  # Assurez-vous que la redirection est réussie
+    assert response.status_code == 200  # Assurez-vous que la redirection est réussie
 
     # Vérifier que la tâche a été ajoutée
     response = requests.get(f'{base_url}')
@@ -47,5 +47,5 @@ def test_add_and_delete_task(base_url, setup_app):
 def test_index_page(base_url, setup_app):
     # Test de la page d'index
     response = requests.get(f'{base_url}/')
-    assert response.status_code == 500  # Assurez-vous que la page est accessible
+    assert response.status_code == 200  # Assurez-vous que la page est accessible
     assert b'Pense b\xc3\xaate' in response.content  # Vérifiez que le contenu attendu est présent
