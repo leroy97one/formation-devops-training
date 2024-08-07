@@ -76,6 +76,12 @@ jobs:
 
           docker-compose -f docker-compose-dev.yml ps
           docker exec -i formation-devops-training-web-1 python -m pip install -r /app/requirements.txt
+
+
+      - name: Check Flask logs before tests
+        run: docker logs formation-devops-training-web-1
+
+
       - name: Run unit tests
         run: |
           docker run -d -i --name unit_tests --network formation-devops-training_default \
@@ -84,6 +90,12 @@ jobs:
             python:3.10-slim bash
           docker exec -i unit_tests python3 -m pip install -r requirements.txt
           docker exec -i unit_tests python3 /opt/formation-devops-training/test_main.py
+
+      - name: Check Flask logs after unit tests
+        run: docker logs formation-devops-training-web-1
+
+        
+            
       - name: Run integration test
         run: |
           sudo chown -R $USER:$USER /home/runner/work/formation-devops-training/
