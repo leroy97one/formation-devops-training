@@ -1,14 +1,12 @@
 from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
-from datetime import datetime
+from flask_migrate import Migrate
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = f'postgresql://myuser:mypassword@db:5432/mydatabase'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
-app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
-    'pool_pre_ping': True,
-}
+migrate = Migrate(app, db)
 
 class Todo(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -53,9 +51,6 @@ def delete(todo_id):
         return redirect(url_for("index"))
     except Exception as e:
         return str(e), 500
-
-with app.app_context():
-    db.create_all()
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)

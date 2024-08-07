@@ -77,6 +77,12 @@ jobs:
           docker-compose -f docker-compose-dev.yml ps
           docker exec -i formation-devops-training-web-1 python -m pip install -r /app/requirements.txt
 
+      
+      - name: Set up Flask-Migrate
+        run: |
+          export FLASK_APP=app.py
+          flask db upgrade
+          
 
       - name: Check Flask logs before tests
         run: docker logs formation-devops-training-web-1
@@ -94,8 +100,8 @@ jobs:
       - name: Check Flask logs after unit tests
         run: docker logs formation-devops-training-web-1
 
-        
-            
+
+
       - name: Run integration test
         run: |
           sudo chown -R $USER:$USER /home/runner/work/formation-devops-training/
@@ -107,6 +113,15 @@ jobs:
           
 
           pytest test_e2e.py
+
+
+      - name: Check Flask logs after integration tests
+        run: docker logs formation-devops-training-web-1
+
+      - name: Check error logs
+        run: |
+          if [ -f error.log ]; then cat error.log; fi
+
   deploy:
     runs-on: self-hosted
     needs: tests_unitaires
