@@ -60,6 +60,10 @@ jobs:
           docker-compose -f docker-compose-dev.yml build 
           docker-compose -f docker-compose-dev.yml up -d
           sleep 10
+
+      - name: Wait for services to be ready
+        run: sleep 30
+
       - name: Show containers
         run: |
           docker-compose -f docker-compose-dev.yml up -d
