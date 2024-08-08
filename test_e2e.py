@@ -14,13 +14,6 @@ def extract_task_ids(response_content):
     # Convertion des task_ids de bytes à int
     return list(map(int, task_ids))
 
-@pytest.fixture
-def setup_app(base_url):
-    # Setup initial state
-    requests.get(f'{base_url}/delete/all')  # Assuming you have a route to delete all tasks for clean setup
-    yield
-    # Teardown
-    requests.get(f'{base_url}/delete/all')  # Clean up after tests
 
 def test_add_and_delete_task(base_url, setup_app):
     # Test d'ajout d'une tâche
