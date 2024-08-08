@@ -6,7 +6,7 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://myuser:mypassword@db:5432/mydatabase'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app) 
-app.config['SQLALCHEMY_ENGINE OPTIONS'] =  {
+app.config['SQLALCHEMY_ENGINE_OPTIONS'] =  {
     'pool_pre_ping': True,
 }
 
