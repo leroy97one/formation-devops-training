@@ -7,6 +7,7 @@ WORKDIR /app
 # Copiez les fichiers nécessaires dans le conteneur
 COPY requirements.txt .
 COPY app.py .
+COPY test_e2e.py .
 
 # Installez les dépendances
 RUN pip install --no-cache-dir -r requirements.txt
@@ -15,6 +16,9 @@ RUN mkdir templates
 COPY templates/index.html templates/index.html
 
 VOLUME [ "/app/data" ]
+
+# Exécutez les tests avec pytest
+RUN pytest test_e2e.py | tee test_results.log
 
 # Exposez le port sur lequel l'application sera accessible
 EXPOSE 5000
