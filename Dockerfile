@@ -22,6 +22,3 @@ VOLUME [ "/app/data" ]
 EXPOSE 5000
 # Commande pour démarrer l'application Flask
 CMD ["python", "app.py"]
-
-# Exécutez les tests avec pytest
-RUN pytest test_e2e.py | tee test_results.log
