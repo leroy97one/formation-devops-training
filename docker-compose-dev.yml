@@ -11,7 +11,6 @@ services:
     depends_on:
       - db
     
-    entrypoint: ["/wait-for-it.sh", "db:5432", "--", "python", "app.py"]
  
   db:
     image: postgres:latest
