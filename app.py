@@ -5,7 +5,6 @@ from datetime import datetime
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://myuser:mypassword@db:5432/mydatabase'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
 db = SQLAlchemy(app)
 
 class Todo(db.Model):
@@ -17,7 +16,9 @@ class Todo(db.Model):
 def index():
     todo_list = Todo.query.all()
     print(todo_list)
-    return render_template("index.html", todo_list=todo_list)
+    return render_template("index.html", todo_list =todo_list)
+
+
 
 @app.route("/add", methods=["POST"])
 def add():
@@ -30,21 +31,26 @@ def add():
 @app.route("/update/<int:todo_id>")
 def update(todo_id):
     todo = Todo.query.filter_by(id=todo_id).first()
-    if todo:
-        todo.complete = not todo.complete
-        db.session.commit()
+    todo.complete = not todo.complete
+    db.session.commit()
     return redirect(url_for("index"))
+
 
 @app.route("/delete/<int:todo_id>")
 def delete(todo_id):
+
     todo = Todo.query.filter_by(id=todo_id).first()
-    if todo:
-        db.session.delete(todo)
-        db.session.commit()
+    db.session.delete(todo)
+    db.session.commit()
     return redirect(url_for("index"))
 
-with app.app_context():
-    db.create_all()
+
+
+
+
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    app.run(host='0.0.0.0', port=5000)
+    with app.app_context():
+        db.create_all()
+        app.run(debug=True)
