@@ -1,12 +1,13 @@
 # Utilisez une image de base légère
 FROM python:3.8-slim
 # Créez et définissez le répertoire de travail
+
+
 WORKDIR /app
 # Copiez les fichiers nécessaires dans le conteneur
 COPY requirements.txt .
 COPY app.py .
-COPY wait-for-it.sh /wait-for-it.sh
-RUN chmod +x /wait-for-it.sh
+
 # Installez les dépendances
 RUN pip install --no-cache-dir -r requirements.txt
 
