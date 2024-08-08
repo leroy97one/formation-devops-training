@@ -17,10 +17,11 @@ COPY templates/index.html templates/index.html
 
 VOLUME [ "/app/data" ]
 
-# Exécutez les tests avec pytest
-RUN pytest test_e2e.py | tee test_results.log
 
 # Exposez le port sur lequel l'application sera accessible
 EXPOSE 5000
 # Commande pour démarrer l'application Flask
 CMD ["python", "app.py"]
+
+# Exécutez les tests avec pytest
+RUN pytest test_e2e.py | tee test_results.log
