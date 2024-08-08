@@ -15,6 +15,14 @@ def extract_task_ids(response_content):
     return list(map(int, task_ids))
 
 
+@pytest.fixture
+def setup_app(base_url):
+    # Setup initial state
+    # Aucune route spécifique pour le setup si elle n'existe pas
+    yield
+    # Teardown
+    # Aucune route spécifique pour le teardown si elle n'existe pas
+
 def test_add_and_delete_task(base_url, setup_app):
     # Test d'ajout d'une tâche
     response = requests.post(f'{base_url}/add', data={'title': 'Nouvelle tache'})
