@@ -30,7 +30,7 @@ def test_add_and_delete_task(base_url, setup_app):
     # Vérifier que la tâche a été ajoutée
     response = requests.get(f'{base_url}')
     assert response.status_code == 200
-    assert b'Nouvelle tache' in response.content
+    assert 'Nouvelle tache' in response.text
 
     # Test de suppression de toutes les tâches
     task_ids = extract_task_ids(response.content)
