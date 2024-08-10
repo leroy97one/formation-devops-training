@@ -102,8 +102,6 @@ jobs:
           pytest test_e2e.py
 
 
-      - name: Check Flask logs after integration tests
-        run: docker logs formation-devops-training-web-1
 
       - name: Check error logs
         run: |
