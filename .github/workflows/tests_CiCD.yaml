@@ -75,13 +75,11 @@ jobs:
           python -m pip install -r requirements.txt
 
           docker-compose -f docker-compose-dev.yml ps
-          docker exec -i formation-devops-training-web-1 python -m pip install -r /app/requirements.txt
+      #    docker exec -i formation-devops-training-web-1 python -m pip install -r /app/requirements.txt
 
       
 
-      - name: Check Flask logs before tests
-        run: docker logs formation-devops-training-web-1
-
+      
 
       - name: Run unit tests
         run: |
@@ -92,8 +90,7 @@ jobs:
           docker exec -i unit_tests python3 -m pip install -r requirements.txt
           docker exec -i unit_tests python3 /opt/formation-devops-training/test_main.py
 
-      - name: Check Flask logs after unit tests
-        run: docker logs formation-devops-training-web-1
+     
 
 
 
