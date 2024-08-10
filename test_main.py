@@ -14,7 +14,8 @@ class YourAppTestCase(TestCase):
 
     def tearDown(self):
         db.session.remove()
-        db.drop_all()
+        #  Prevent drop db with postgres
+        #  db.drop_all()
 
     # Testez la création d'une tâche
     def test_add_task(self):
