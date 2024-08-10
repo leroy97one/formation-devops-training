@@ -1,13 +1,14 @@
 
 services:
   web:
-    image: leroy971/demo:${APP_VERSION} 
+    #  image: leroy971/demo:${APP_VERSION} 
+    build: .
     environment:
       - DB_HOST=db
     ports:
       - "5000:5000"
-    volumes:
-      - ./app.py:/app/app.py
+    #  volumes:
+    #  - ./app.py:/app/app.py
     depends_on:
       - db
     
@@ -22,5 +23,5 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - ./postgresql_data:/var/lib/postgresql/data
+      - $HOME/postgresql_data:/var/lib/postgresql/data
     

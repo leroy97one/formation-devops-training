@@ -102,11 +102,6 @@ jobs:
           sudo chown -R $USER:$USER /home/runner/work/formation-devops-training/
           sudo chmod 755 /home/runner/work/formation-devops-training
           
-
-
-
-          
-
           pytest test_e2e.py
 
 

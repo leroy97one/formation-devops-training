@@ -6,11 +6,12 @@ FROM python:3.8-slim
 WORKDIR /app
 # Copiez les fichiers nécessaires dans le conteneur
 COPY requirements.txt .
+# Installez les dépendances
+RUN pip install --no-cache-dir -r requirements.txt
+# Copiez les fichiers nécessaires dans le conteneur
 COPY app.py .
 COPY test_e2e.py .
 
-# Installez les dépendances
-RUN pip install --no-cache-dir -r requirements.txt
 
 RUN mkdir templates
 COPY templates/index.html templates/index.html
