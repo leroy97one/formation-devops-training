@@ -1,0 +1,9 @@
+#!/bin/bash
+
+# Kill all running containers
+docker-compose -f docker-compose-dev.yml down
+docker kill $(docker ps -q)
+
+# Force remove all containers
+docker rm -f $(docker ps -a -q)
+echo " OK "

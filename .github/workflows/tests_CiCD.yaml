@@ -131,3 +131,5 @@ jobs:
         run: |
           
           docker-compose -f docker-compose-dev.yml ps
+      - name: Kill containers
+        run: ./killcontainers
