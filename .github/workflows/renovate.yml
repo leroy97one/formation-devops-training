@@ -2,7 +2,9 @@ name: Renovate
 
 on:
   schedule:
-    - cron: '0 0 * * *'
+     - cron: '0 0 * * *'
+       branches:
+         - main
   workflow_dispatch:
 
 jobs:
