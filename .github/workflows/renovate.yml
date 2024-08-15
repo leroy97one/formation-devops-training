@@ -22,7 +22,7 @@ jobs:
         run: npm install -g renovate
 
       - name: Run Renovate
-        run: renovate leroy971/demo:latest # --autodiscover
+        run: renovate leroy971/demo # --autodiscover
         env:
           RENOVATE_CONFIG_FILE: renovate.json
           RENOVATE_TOKEN: ${{ secrets.RENOVATE_TOKEN }}
