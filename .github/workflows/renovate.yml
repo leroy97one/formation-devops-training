@@ -2,9 +2,8 @@ name: Renovate
 
 on:
   schedule:
-     - cron: '0 0 * * *'
-       branches:
-         - main
+    - cron: '0 0 * * *'
+
   workflow_dispatch:
 
 jobs:
@@ -24,7 +23,7 @@ jobs:
         run: npm install -g renovate
 
       - name: Run Renovate
-        run: renovate leroy971/demo # --autodiscover
+        run: renovate  # --autodiscover
         env:
           RENOVATE_CONFIG_FILE: renovate.json
           RENOVATE_TOKEN: ${{ secrets.RENOVATE_TOKEN }}
