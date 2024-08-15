@@ -1,0 +1,32 @@
+name: Renovate
+
+on:
+    schedule:
+    - cron: '0 0 * * *'
+    workflow_dispatch:
+
+    jobs:
+    renovate:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+    uses: actions/checkout@v4
+    - name: Set up Node.js
+    uses: actions/setup-node@v4
+
+    with:
+    3
+    node-version: '20'
+
+    - name: Install Renovate
+    run: npm install -g renovate
+
+    - name: Run Renovate
+    run: renovate <username>/<repository_name> # --autodiscover
+    env:
+
+    RENOVATE_CONFIG_FILE: renovate.json
+    RENOVATE_TOKEN: ${{ secrets.RENOVATE_TOKEN }}
+    # LOG_LEVEL: debug
+    # RENOVATE_RECREATE_WHEN: always
