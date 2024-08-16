@@ -22,7 +22,7 @@ jobs:
       - name: Install Renovate
         run: npm install -g renovate
 
-      - name: Run Renovate
+      - name: Run Renovate leroy971/demo
         run: renovate  # --autodiscover
         env:
           RENOVATE_CONFIG_FILE: renovate.json
