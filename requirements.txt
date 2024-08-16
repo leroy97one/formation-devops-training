@@ -1,4 +1,4 @@
-Flask==3.0.0
+Flask==3.0.3
 Flask-SQLAlchemy==3.0.2
 psycopg2-binary
 flask_testing==0.8.1
