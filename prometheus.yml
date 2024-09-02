@@ -1,0 +1,28 @@
+global:
+  scrape_interval: 15s
+
+scrape_configs:
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+
+  - job_name: 'node_exporter'
+    static_configs:
+      - targets: ['172.17.0.4:9100']
+        labels:
+          hostname: 'monitoring'
+
+      - targets: ['157.250.55.157:9100']
+        labels:
+          hostname: 'app1'
+
+  
+  - job_name: 'cadvisor'
+    static_configs:     
+      - targets: ['172.17.0.5:8080']  1
+        labels:
+          hostname: 'monitoring'
+
+      - targets: ['157.250.55.157:8080']
+        labels:
+          hostname: 'app1'
