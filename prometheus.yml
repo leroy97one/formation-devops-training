@@ -16,13 +16,19 @@ scrape_configs:
         labels:
           hostname: 'app1'
 
-  
   - job_name: 'cadvisor'
     static_configs:     
-      - targets: ['172.17.0.5:8080']  1
+      - targets: ['172.17.0.2:8080']
         labels:
-          hostname: 'monitoring'
+          hostname: 'monitoring2'
 
       - targets: ['157.250.55.157:8080']
         labels:
-          hostname: 'app1'
+          hostname: 'app1.2'
+
+
+    relabel_configs:
+      - source_labels: [__address__, hostname]
+        regex: '^(.*):\d+;(.*)$'
+        target_label: instance
+        replacement: '$2:$1'
