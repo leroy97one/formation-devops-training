@@ -10,7 +10,7 @@
 
     - name: Copier le fichier requirements.txt sur le serveur
       copy:
-        src: /home/matteo/myproject/formation-devops-training/requirements.txt
+        src: /home/matteo/formation-devops-training/requirements.txt
         dest: /home/outscale/flask/formation-devops-training/requirements.txt
 
     - name: Installer les dépendances via pip

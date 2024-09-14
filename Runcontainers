@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# Script to run Docker containers
+docker run   --volume=/:/rootfs:ro   --volume=/var/run:/var/run:ro   --volume=/sys:/sys:ro   --volume=/var/lib/docker/:/var/lib/docker:ro   --volume=/dev/disk/:/dev/disk:ro   --publish=8080:8080   --detach=true   --name=cadvisor   google/cadvisor:latest
+docker run -d -p 3000:3000 --name=grafana --restart always grafana/grafana-oss
+docker run -d --name=node-exporter -p 9100:9100 prom/node-exporter
+docker run -d -p 9090:9090 --name=prometheus --restart always -v /home/matteo/formation-devops-training/prometheus.yml:/etc/prometheus/prometheus.yml:ro prom/prometheus
+
+
+

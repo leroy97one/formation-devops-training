@@ -1,0 +1,23 @@
+#!/bin/bash
+# Script to restart all running Docker containers
+
+# Step 1: List all running containers
+echo "Listing all running containers..."
+running_containers=$(docker ps -q)
+
+if [ -z "$running_containers" ]; then
+  echo "No running containers found."
+  exit 1
+fi
+
+# Step 2: Stop all running containers
+echo "Stopping all running containers..."
+docker stop $running_containers
+
+# Step 3: Restart the containers
+echo "Restarting all containers..."
+docker start $running_containers
+
+# Step 4: Display the status of the containers
+echo "All containers have been restarted:"
+docker ps
