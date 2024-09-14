@@ -8,7 +8,7 @@ scrape_configs:
 
   - job_name: 'node_exporter'
     static_configs:
-      - targets: ['172.17.0.4:9100']
+      - targets: ['172.17.0.3:9100']
         labels:
           hostname: 'monitoring'
 
@@ -18,7 +18,7 @@ scrape_configs:
 
   - job_name: 'cadvisor'
     static_configs:     
-      - targets: ['172.17.0.2:8080']
+      - targets: ['172.17.0.5:8080']
         labels:
           hostname: 'monitoring2'
 
@@ -26,6 +26,13 @@ scrape_configs:
         labels:
           hostname: 'app1.2'
 
+  - job_name: 'Flask'
+    static_configs:     
+      - targets: ['157.250.55.157:5000']
+        labels:
+          hostname: 'app1.1'
+
+      
 
     relabel_configs:
       - source_labels: [__address__, hostname]
