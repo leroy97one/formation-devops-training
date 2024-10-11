@@ -27,5 +27,6 @@ jobs:
         env:
           RENOVATE_CONFIG_FILE: renovate.json
           RENOVATE_TOKEN: ${{ secrets.RENOVATE_TOKEN }}
-          #LOG_LEVEL: debug
-    # RENOVATE_RECREATE_WHEN: always
+          
+          LOG_LEVEL: debug
+          RENOVATE_RECREATE_WHEN: always
