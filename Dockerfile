@@ -1,5 +1,5 @@
 # Utilisez une image de base légère
-FROM python:3.8-slim
+FROM python:3.13-slim
 # Créez et définissez le répertoire de travail
 
 
