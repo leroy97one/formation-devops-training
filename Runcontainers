@@ -6,5 +6,7 @@ docker run -d -p 3000:3000 --name=grafana --restart always grafana/grafana-oss
 docker run -d --name=node-exporter -p 9100:9100 prom/node-exporter
 docker run -d -p 9090:9090 --name=prometheus --restart always -v /home/matteo/formation-devops-training/prometheus.yml:/etc/prometheus/prometheus.yml:ro prom/prometheus
 
+echo "OK"
+docker ps
 
 
